@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
@@ -17,7 +16,9 @@ import {
   Zap,
   Clock,
   Database,
-  Code
+  Code,
+  Keyboard,
+  FileText
 } from 'lucide-react';
 
 // --- MOCK DATA ---
@@ -253,12 +254,121 @@ const FeedCard = ({ entry, onVote }: { entry: any, onVote: (val: number) => void
   );
 };
 
+const SpellingGuideSheet = ({ onClose }: { onClose: () => void }) => (
+  <div className="absolute inset-x-0 bottom-0 z-[70] bg-white sm:rounded-b-2xl rounded-t-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] transform transition-transform duration-300 animate-in slide-in-from-bottom border-t border-slate-200 flex flex-col max-h-[80%]">
+    <div className="flex items-center justify-between p-4 border-b border-slate-100 bg-slate-50/80 rounded-t-2xl">
+      <h3 className="font-bold text-slate-800 flex items-center gap-2">
+        <Keyboard size={18} className="text-emerald-600"/> 
+        Pedoman Ejaan Baku
+      </h3>
+      <button onClick={onClose} className="p-1.5 bg-slate-200 rounded-full hover:bg-slate-300 transition-colors text-slate-600">
+        <X size={16} />
+      </button>
+    </div>
+    
+    <div className="p-5 overflow-y-auto">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4 text-xs text-amber-900 flex items-start gap-2">
+         <Info size={14} className="mt-0.5 shrink-0 text-amber-600"/>
+         <p><strong>Tips:</strong> Tekan & tahan (Long press) tombol huruf di keyboard HP Anda untuk memunculkan karakter khusus.</p>
+      </div>
+
+      <table className="w-full text-sm text-left mb-6">
+        <thead className="text-[10px] text-slate-500 uppercase bg-slate-50 border-b border-slate-100">
+          <tr>
+            <th className="px-3 py-2">Huruf</th>
+            <th className="px-3 py-2">Bunyi / Contoh</th>
+            <th className="px-3 py-2 text-right">Cara Ketik</th>
+          </tr>
+        </thead>
+        <tbody className="text-slate-700 divide-y divide-slate-100">
+          {/* E PEPET */}
+          <tr>
+            <td className="px-3 py-3 font-bold text-xl font-serif text-emerald-700">e</td>
+            <td className="px-3 py-3">
+               <div className="font-bold text-slate-800">Le (Banyak)</div>
+               <div className="text-xs text-slate-500">/ə/ (Pepet) Lemah, seperti "emas".</div>
+            </td>
+            <td className="px-3 py-3 text-right"><code className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">'e' biasa</code></td>
+          </tr>
+          
+          {/* E TALING TERTUTUP */}
+          <tr>
+            <td className="px-3 py-3 font-bold text-xl font-serif text-emerald-700">é</td>
+            <td className="px-3 py-3">
+               <div className="font-bold text-slate-800">Lé (Oleh)</div>
+               <div className="text-xs text-slate-500">/e/ Tegas, seperti "saté", "lele".</div>
+            </td>
+            <td className="px-3 py-3 text-right"><code className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">Tahan 'e'</code></td>
+          </tr>
+          
+          {/* E TALING TERBUKA */}
+          <tr>
+            <td className="px-3 py-3 font-bold text-xl font-serif text-emerald-700">è</td>
+            <td className="px-3 py-3">
+               <div className="font-bold text-slate-800">Pèng (Uang)</div>
+               <div className="text-xs text-slate-500">/ɛ/ Mulut lebar, seperti "bebek".</div>
+            </td>
+            <td className="px-3 py-3 text-right"><code className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">Tahan 'e'</code></td>
+          </tr>
+          
+          {/* EU KHAS ACEH */}
+           <tr>
+            <td className="px-3 py-3 font-bold text-xl font-serif text-emerald-700">eu</td>
+            <td className="px-3 py-3">
+               <div className="font-bold text-slate-800">Leubèe (Lebai)</div>
+               <div className="text-xs text-slate-500">/ɯ/ Gigi rapat, bibir tidak bulat.</div>
+            </td>
+            <td className="px-3 py-3 text-right"><code className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">'e' + 'u'</code></td>
+          </tr>
+
+          {/* O TERBUKA */}
+          <tr>
+            <td className="px-3 py-3 font-bold text-xl font-serif text-emerald-700">o</td>
+            <td className="px-3 py-3">
+               <div className="font-bold text-slate-800">Boh (Buah)</div>
+               <div className="text-xs text-slate-500">/ɔ/ Mulut lebar, seperti "botol".</div>
+            </td>
+            <td className="px-3 py-3 text-right"><code className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">'o' biasa</code></td>
+          </tr>
+
+          {/* O TERTUTUP */}
+          <tr>
+            <td className="px-3 py-3 font-bold text-xl font-serif text-emerald-700">ô</td>
+            <td className="px-3 py-3">
+               <div className="font-bold text-slate-800">Bôh (Mengisi)</div>
+               <div className="text-xs text-slate-500">/o/ Bibir bulat maju, seperti "soto".</div>
+            </td>
+            <td className="px-3 py-3 text-right"><code className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">Tahan 'o'</code></td>
+          </tr>
+
+          {/* O KHAS ACEH (Ö) */}
+          <tr>
+            <td className="px-3 py-3 font-bold text-xl font-serif text-emerald-700">ö</td>
+            <td className="px-3 py-3">
+               <div className="font-bold text-slate-800">Böh (Buang)</div>
+               <div className="text-xs text-slate-500">/ʌ/ Mulut terbuka 'a' tapi bunyi 'o' dalam.</div>
+            </td>
+            <td className="px-3 py-3 text-right"><code className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">Tahan 'o'</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-slate-600 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 hover:border-slate-300 hover:text-slate-800 transition-all group">
+        <span>Pasang Gboard Bahasa Aceh</span>
+        <Share2 size={16} className="text-slate-400 group-hover:text-slate-600"/>
+      </button>
+    </div>
+  </div>
+);
+
 const InputModal = ({ onClose }: { onClose: () => void }) => {
+  const [showSpelling, setShowSpelling] = useState(false);
+
   return (
     <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center sm:p-4 animate-in fade-in duration-200">
-      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
       
-      <div className="relative bg-white w-full max-w-lg sm:rounded-2xl rounded-t-2xl shadow-2xl flex flex-col max-h-[90vh]">
+      <div className="relative bg-white w-full max-w-lg sm:rounded-2xl rounded-t-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
         <div className="flex items-center justify-between p-4 border-b border-slate-100">
           <h3 className="text-lg font-bold text-slate-800">Tambah Lema Baru</h3>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 text-slate-500">
@@ -266,11 +376,24 @@ const InputModal = ({ onClose }: { onClose: () => void }) => {
           </button>
         </div>
 
-        <div className="p-5 overflow-y-auto space-y-6">
+        <div className="p-5 overflow-y-auto space-y-6 flex-1">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-bold text-slate-700 mb-1">Kata (Lema)</label>
-              <input type="text" placeholder="Contoh: Cicem" className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-serif text-lg" />
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="block text-sm font-bold text-slate-700">Kata (Lema)</label>
+                <button 
+                  onClick={() => setShowSpelling(true)}
+                  className="text-[10px] font-bold text-emerald-700 flex items-center gap-1.5 bg-emerald-50 px-2.5 py-1 rounded-md hover:bg-emerald-100 transition-colors border border-emerald-100 shadow-sm"
+                >
+                  <Info size={12} strokeWidth={2.5}/>
+                  Bantuan Ejaan
+                </button>
+              </div>
+              <input 
+                type="text" 
+                placeholder="Contoh: Gampông, Iték (Gunakan ejaan baku)" 
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-serif text-lg placeholder:font-sans placeholder:text-slate-400" 
+              />
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-1">Definisi (Indonesia)</label>
@@ -351,11 +474,19 @@ const InputModal = ({ onClose }: { onClose: () => void }) => {
 
         </div>
 
-        <div className="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl">
+        <div className="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl z-20">
           <button className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-200 active:scale-[0.98] transition-all">
             Kirim Lema
           </button>
         </div>
+
+        {/* SPELLING GUIDE SHEET OVERLAY */}
+        {showSpelling && (
+           <>
+             <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-[1px] z-[65]" onClick={() => setShowSpelling(false)} />
+             <SpellingGuideSheet onClose={() => setShowSpelling(false)} />
+           </>
+        )}
 
       </div>
     </div>
@@ -365,7 +496,7 @@ const InputModal = ({ onClose }: { onClose: () => void }) => {
 // --- TECHNICAL DOCS VIEWER ---
 
 const TechSpecs = () => {
-  const [activeTab, setActiveTab] = useState<'sql' | 'logic'>('sql');
+  const [activeTab, setActiveTab] = useState<'sql' | 'logic' | 'seed'>('sql');
 
   const sqlContent = `
 -- 1. DAILY QUEST TRACKING
@@ -441,38 +572,72 @@ END;
 $$ LANGUAGE plpgsql;
 `;
 
+  const seedContent = `
+-- See seed_data.sql for full 250+ inserts.
+-- Preview:
+
+INSERT INTO hadih_majas (content, translation, philosophy) VALUES
+('Pat ujeuen nyang hana pirang, pat prang nyang hana reda.', 'Di mana hujan...', 'Setiap masalah...'),
+('Adat bak Poteu Meureuhôm, Hukôm bak Syiah Kuala.', 'Adat pada Poteu Meureuhom...', 'Pembagian wewenang...'),
+...;
+
+INSERT INTO entries (word, definition_id, dialect, part_of_speech, register, status) VALUES
+('Lôn', 'Saya', 'Semua', 'Pronomina', 'Hormat', 'Verified'),
+('Gata', 'Kamu / Anda', 'Semua', 'Pronomina', 'Biasa', 'Verified'),
+('Gobnyan', 'Dia / Beliau', 'Semua', 'Pronomina', 'Hormat', 'Verified'),
+('Soe', 'Siapa', 'Semua', 'Pronomina', 'Biasa', 'Verified'),
+...;
+`;
+
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 border-b border-slate-200 pb-2">
+      <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
         <button 
           onClick={() => setActiveTab('sql')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${activeTab === 'sql' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${activeTab === 'sql' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
         >
           <Database size={14} /> SQL Schema
         </button>
         <button 
           onClick={() => setActiveTab('logic')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${activeTab === 'logic' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${activeTab === 'logic' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
         >
           <Code size={14} /> Logic & Triggers
+        </button>
+        <button 
+          onClick={() => setActiveTab('seed')}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${activeTab === 'seed' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+        >
+          <FileText size={14} /> Seed Data
         </button>
       </div>
 
       <div className="bg-slate-900 rounded-lg p-4 overflow-x-auto">
         <pre className="text-[10px] font-mono text-emerald-300 leading-relaxed">
-          {activeTab === 'sql' ? sqlContent : logicContent}
+          {activeTab === 'sql' ? sqlContent : activeTab === 'logic' ? logicContent : seedContent}
         </pre>
       </div>
       
-      <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg">
-        <h4 className="flex items-center gap-2 text-xs font-bold text-amber-800 mb-1">
-          <Clock size={12} />
-          Anti-Spam Logic (Frontend)
-        </h4>
-        <p className="text-[10px] text-amber-700">
-          Implemented via <code>useRef</code> timestamp tracking. If <code>Date.now() - lastClick &lt; 500ms</code>, the action is blocked and a toast warning "Saba dilee..." is shown.
-        </p>
-      </div>
+      {activeTab === 'seed' ? (
+        <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-lg">
+           <h4 className="flex items-center gap-2 text-xs font-bold text-emerald-800 mb-1">
+             <Database size={12} /> Data Populated
+           </h4>
+           <p className="text-[10px] text-emerald-700">
+             Generated <code>seed_data.sql</code> with 50 Hadih Maja and 200 Dictionary Entries. Check the file browser to download the full SQL.
+           </p>
+        </div>
+      ) : (
+        <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg">
+          <h4 className="flex items-center gap-2 text-xs font-bold text-amber-800 mb-1">
+            <Clock size={12} />
+            Anti-Spam Logic (Frontend)
+          </h4>
+          <p className="text-[10px] text-amber-700">
+            Implemented via <code>useRef</code> timestamp tracking. If <code>Date.now() - lastClick &lt; 500ms</code>, the action is blocked and a toast warning "Saba dilee..." is shown.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
