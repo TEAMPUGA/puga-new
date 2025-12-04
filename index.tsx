@@ -21,49 +21,61 @@ import {
   FileText
 } from 'lucide-react';
 
-// --- MOCK DATA ---
+// --- MOCK DATA (SYNCED WITH SQL SEED) ---
 
 const MOCK_ENTRIES = [
   {
     id: '1',
-    word: 'Cicem',
-    definition: 'Burung; hewan bersayap yang dapat terbang.',
+    word: 'Lôn',
+    definition: 'Saya (Kata ganti orang pertama tunggal). Digunakan dalam situasi formal atau kepada orang yang dihormati.',
     dialect: 'Semua',
-    register: 'Biasa',
-    part_of_speech: 'Nomina',
-    votes: 124,
+    register: 'Hormat',
+    part_of_speech: 'Pronomina',
+    votes: 342,
     hasAudio: true,
     userVote: 1, 
     author: 'Teuku Umar'
   },
   {
     id: '2',
-    word: 'Pajoh',
-    definition: 'Makan (Digunakan untuk teman sebaya atau konteks yang sangat akrab, agak kasar jika ke orang tua).',
-    dialect: 'Aceh Rayeuk',
-    register: 'Kasar',
-    part_of_speech: 'Verba',
-    votes: 89,
-    hasAudio: false,
+    word: 'Gata',
+    definition: 'Kamu / Anda (Kata ganti orang kedua). Digunakan untuk lawan bicara yang setara atau lebih muda.',
+    dialect: 'Semua',
+    register: 'Biasa',
+    part_of_speech: 'Pronomina',
+    votes: 156,
+    hasAudio: true,
     userVote: 0,
-    author: 'Cut Nyak'
+    author: 'Cut Nyak Dien'
   },
   {
     id: '3',
-    word: 'Duek',
-    definition: 'Duduk.',
-    dialect: 'Pidie',
-    register: 'Biasa',
-    part_of_speech: 'Verba',
-    votes: 45,
-    hasAudio: true,
+    word: 'Gobnyan',
+    definition: 'Dia / Beliau. Kata ganti orang ketiga untuk merujuk pada orang yang dihormati atau orang tua.',
+    dialect: 'Semua',
+    register: 'Hormat',
+    part_of_speech: 'Pronomina',
+    votes: 89,
+    hasAudio: false,
     userVote: 0,
-    author: 'Anonymous'
+    author: 'Sultan Iskandar'
   },
   {
     id: '4',
+    word: 'Pajoh',
+    definition: 'Makan. Kata ini bermakna sangat kasar jika digunakan kepada orang tua. Biasanya dipakai antar teman akrab yang sebaya.',
+    dialect: 'Aceh Rayeuk',
+    register: 'Kasar',
+    part_of_speech: 'Verba',
+    votes: 567,
+    hasAudio: true,
+    userVote: -1,
+    author: 'Pang Laot'
+  },
+  {
+    id: '5',
     word: 'Seumurat',
-    definition: 'Sebuah frasa puitis menggambarkan keindahan alam saat fajar menyingsing.',
+    definition: 'Sebuah frasa puitis menggambarkan keindahan alam saat fajar menyingsing (cahaya merekah).',
     dialect: 'Pase',
     register: 'Sastra',
     part_of_speech: 'Adjektiva',
@@ -157,7 +169,7 @@ const DailyQuestWidget = ({ progress, total = 10 }: { progress: number, total?: 
   );
 };
 
-const FeedCard = ({ entry, onVote }: { entry: any, onVote: (val: number) => void }) => {
+const FeedCard: React.FC<{ entry: any, onVote: (val: number) => void }> = ({ entry, onVote }) => {
   const [voteState, setVoteState] = useState(entry.userVote);
   const [score, setScore] = useState(entry.votes);
 
@@ -186,28 +198,46 @@ const FeedCard = ({ entry, onVote }: { entry: any, onVote: (val: number) => void
   };
 
   return (
-    <article className="bg-white border-b border-slate-100 last:border-0 pb-4 pt-5 px-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex items-center gap-2">
-           <span className="text-xs font-medium text-slate-400">@{entry.author}</span>
-           <span className="text-xs text-slate-300">•</span>
-           <span className="text-xs text-slate-400">2j yang lalu</span>
+    <article className="bg-white border-b border-slate-100 last:border-0 pb-4 pt-4 px-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      {/* Header: User Info & Dialect */}
+      <div className="flex justify-between items-start mb-3">
+        <div className="flex items-center gap-3">
+           <div className="relative">
+             <img 
+               src={`https://api.dicebear.com/9.x/avataaars/svg?seed=${entry.author}&backgroundColor=c0aede`} 
+               alt={entry.author}
+               className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 object-cover"
+             />
+             <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></div>
+           </div>
+           
+           <div className="flex flex-col">
+              <div className="flex items-center gap-1">
+                 <span className="text-sm font-bold text-slate-900 leading-tight">@{entry.author}</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                 <span>2j yang lalu</span>
+                 <span className="w-0.5 h-0.5 rounded-full bg-slate-400"></span>
+                 <span className="font-medium text-slate-500">Contributor</span>
+              </div>
+           </div>
         </div>
-        <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-md border border-slate-200">
+
+        <span className="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-200">
           {entry.dialect}
         </span>
       </div>
 
-      <div className="mb-3">
-        <h2 className="text-3xl font-black text-slate-900 mb-2 font-serif tracking-wide">
+      <div className="mb-3 pl-[52px]">
+        <h2 className="text-2xl font-black text-slate-900 mb-2 font-serif tracking-wide">
           {entry.word}
         </h2>
         
         <div className="flex flex-wrap gap-2 mb-3">
-          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getPosColor(entry.part_of_speech)}`}>
+          <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase tracking-wide ${getPosColor(entry.part_of_speech)}`}>
             {entry.part_of_speech}
           </span>
-          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getRegisterColor(entry.register)}`}>
+          <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase tracking-wide ${getRegisterColor(entry.register)}`}>
             {entry.register}
           </span>
         </div>
@@ -217,36 +247,36 @@ const FeedCard = ({ entry, onVote }: { entry: any, onVote: (val: number) => void
         </p>
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-50">
+      <div className="flex items-center justify-between mt-2 pt-2 pl-[52px]">
         <div className="flex items-center gap-1 bg-slate-50 rounded-full p-1 border border-slate-100">
           <button 
             onClick={() => handleVoteClick(1)}
-            className={`p-2 rounded-full transition-all active:scale-90 ${voteState === 1 ? 'bg-emerald-100 text-emerald-600' : 'hover:bg-slate-200 text-slate-500'}`}
+            className={`p-1.5 rounded-full transition-all active:scale-90 ${voteState === 1 ? 'bg-emerald-100 text-emerald-600' : 'hover:bg-slate-200 text-slate-500'}`}
           >
-            <ThumbsUp size={18} fill={voteState === 1 ? "currentColor" : "none"} />
+            <ThumbsUp size={16} fill={voteState === 1 ? "currentColor" : "none"} />
           </button>
           
-          <span className={`text-sm font-bold min-w-[20px] text-center ${voteState === 1 ? 'text-emerald-600' : voteState === -1 ? 'text-rose-600' : 'text-slate-600'}`}>
+          <span className={`text-xs font-bold min-w-[20px] text-center ${voteState === 1 ? 'text-emerald-600' : voteState === -1 ? 'text-rose-600' : 'text-slate-600'}`}>
             {score}
           </span>
 
           <button 
             onClick={() => handleVoteClick(-1)}
-            className={`p-2 rounded-full transition-all active:scale-90 ${voteState === -1 ? 'bg-rose-100 text-rose-600' : 'hover:bg-slate-200 text-slate-500'}`}
+            className={`p-1.5 rounded-full transition-all active:scale-90 ${voteState === -1 ? 'bg-rose-100 text-rose-600' : 'hover:bg-slate-200 text-slate-500'}`}
           >
-            <ThumbsDown size={18} fill={voteState === -1 ? "currentColor" : "none"} />
+            <ThumbsDown size={16} fill={voteState === -1 ? "currentColor" : "none"} />
           </button>
         </div>
 
         <div className="flex gap-2">
           {entry.hasAudio && (
-            <button className="flex items-center gap-2 px-3 py-2 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-colors">
-              <Play size={14} fill="currentColor" />
+            <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold hover:bg-emerald-100 transition-colors border border-emerald-100">
+              <Play size={12} fill="currentColor" />
               Audio
             </button>
           )}
-          <button className="p-2 rounded-full text-slate-400 hover:bg-slate-50">
-            <Share2 size={20} />
+          <button className="p-1.5 rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-600">
+            <Share2 size={18} />
           </button>
         </div>
       </div>
